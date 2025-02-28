@@ -10,14 +10,14 @@ gsap.registerPlugin(ScrollTrigger)
 export default function Home() {
   const [, setHoveredIndex] = useState<number | null>(null)
   
-  // Refs for text elements
-  const welcomeTextRef = useRef(null)
-  const portfolioTextRef = useRef(null)
-  const loveTextRef = useRef(null)
-  const japanTextRef = useRef(null)
-  const contactSectionRef = useRef(null)
-  const contactTitleRef = useRef(null)
-  const contactDescRef = useRef(null)
+  // Refs for text elements with proper HTML element types
+  const welcomeTextRef = useRef<HTMLHeadingElement>(null)
+  const portfolioTextRef = useRef<HTMLParagraphElement>(null)
+  const loveTextRef = useRef<HTMLSpanElement>(null)
+  const japanTextRef = useRef<HTMLSpanElement>(null)
+  const contactSectionRef = useRef<HTMLDivElement>(null)
+  const contactTitleRef = useRef<HTMLHeadingElement>(null)
+  const contactDescRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
     // Main timeline for initial animations
