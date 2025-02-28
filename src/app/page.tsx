@@ -13,8 +13,8 @@ export default function Home() {
   // Refs for text elements with proper HTML element types
   const welcomeTextRef = useRef<HTMLHeadingElement>(null)
   const portfolioTextRef = useRef<HTMLParagraphElement>(null)
-  const loveTextRef = useRef<HTMLSpanElement>(null)
-  const japanTextRef = useRef<HTMLSpanElement>(null)
+  const loveTextRef = useRef<HTMLHeadingElement>(null)
+  const japanTextRef = useRef<HTMLParagraphElement>(null)
   const contactSectionRef = useRef<HTMLDivElement>(null)
   const contactTitleRef = useRef<HTMLHeadingElement>(null)
   const contactDescRef = useRef<HTMLParagraphElement>(null)
