@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.scss';
 import Image from 'next/image';
 import Lenis from '@studio-freight/lenis';
-import { useTransform, useScroll, motion } from 'framer-motion';
+import { useTransform, useScroll, motion, MotionValue } from 'framer-motion';
 
 const images: string[] = [
   "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg",
@@ -63,7 +63,7 @@ export default function Grid() {
 
 type ColumnProps = {
   images: string[];
-  y: number | { toString: () => string };
+  y: MotionValue<number>;
 };
 
 const Column: React.FC<ColumnProps> = ({ images, y }) => {
