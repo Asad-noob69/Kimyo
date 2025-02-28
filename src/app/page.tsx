@@ -33,15 +33,20 @@ export default function Home() {
 
     // Portfolio text animation
     if (portfolioTextRef.current) {
-      const text = portfolioTextRef.current.innerHTML
-      portfolioTextRef.current.innerHTML = ""
-
+      const text = "WELCOME TO MY PORTFOLIO. IT&apos;S JUST SOME PROJECTS I&apos;VE DONE FOR FUN. HOPE YOU LIKE THESE!!"
       const words = text.split(" ")
+      
+      // Clear existing content
+      while (portfolioTextRef.current.firstChild) {
+        portfolioTextRef.current.removeChild(portfolioTextRef.current.firstChild)
+      }
+
+      // Create spans for each word
       words.forEach((word) => {
         const span = document.createElement("span")
-        span.innerHTML = word + " "
+        span.textContent = word + " "
         span.style.display = "inline-block"
-        portfolioTextRef.current.appendChild(span)
+        portfolioTextRef.current?.appendChild(span)
       })
 
       tl.from(
