@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [, setHoveredIndex] = useState<number | null>(null)
   
   // Refs for text elements
   const welcomeTextRef = useRef(null)
@@ -37,7 +37,7 @@ export default function Home() {
       portfolioTextRef.current.innerHTML = ""
 
       const words = text.split(" ")
-      words.forEach((word, index) => {
+      words.forEach((word) => {
         const span = document.createElement("span")
         span.innerHTML = word + " "
         span.style.display = "inline-block"
@@ -157,7 +157,7 @@ export default function Home() {
             HI!! WELCOME TO KIMYO
           </h1>
           <p ref={portfolioTextRef} className="text-sm sm:text-base mt-2 font-mono text-white leading-relaxed">
-            WELCOME TO MY PORTFOLIO. IT'S JUST SOME PROJECTS I'VE DONE FOR FUN. HOPE YOU LIKE THESE!!
+            WELCOME TO MY PORTFOLIO. IT&apos;S JUST SOME PROJECTS I&apos;VE DONE FOR FUN. HOPE YOU LIKE THESE!!
           </p>
         </div>
 
@@ -235,7 +235,7 @@ export default function Home() {
           {/* Icons with Links */}
           <div className="flex justify-center gap-4 mt-2 text-xl">
             <a href="mailto:your-email@example.com" className="hover:opacity-75 mt-0.5 social-icon">
-              <img src="/images/email.png" alt="Email" className="w-8 h-8" />
+              <Image src="/images/email.png" alt="Email" width={40} height={40} className="w-8 h-8" />
             </a>
             <a
               href="https://www.instagram.com/yourprofile"
@@ -243,7 +243,7 @@ export default function Home() {
               className="hover:opacity-75 social-icon"
               rel="noreferrer"
             >
-              <img src="/images/insta.png" alt="Instagram" className="w-8 h-8" />
+              <Image src="/images/insta.png" alt="Instagram" width={40} height={40} className="w-8 h-8" />
             </a>
             <a
               href="https://wa.me/yourphonenumber"
@@ -251,7 +251,7 @@ export default function Home() {
               className="hover:opacity-75 social-icon"
               rel="noreferrer"
             >
-              <img src="/images/whatsapp.png" alt="WhatsApp" className="w-9 h-9" />
+              <Image src="/images/whatsapp.png" alt="WhatsApp" width={40} height={40} className="w-9 h-9" />
             </a>
           </div>
         </div>
@@ -264,4 +264,3 @@ export default function Home() {
     </main>
   )
 }
-

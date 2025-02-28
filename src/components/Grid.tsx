@@ -63,7 +63,7 @@ export default function Grid() {
 
 type ColumnProps = {
   images: string[];
-  y: any;
+  y: number | { toString: () => string };
 };
 
 const Column: React.FC<ColumnProps> = ({ images, y }) => {
