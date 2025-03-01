@@ -1,0 +1,49 @@
+/* responsive.css */
+/* Only applies to screens smaller than 768px (md breakpoint) */
+@media (max-width: 767px) {
+    /* Main grid adjustments */
+    .main-grid {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+  
+    /* Positioning adjustments */
+    .welcome-text-container {
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      padding: 0 1rem !important;
+    }
+  
+    /* Center logo positioning */
+    .center-logo {
+      position: relative !important;
+      transform: none !important;
+      margin: 2rem auto !important;
+    }
+  
+    /* Image height adjustments */
+    .responsive-image {
+      height: 200px !important;
+      width: 100% !important;
+      margin-bottom: 1rem;
+    }
+  
+    /* Text container adjustments */
+    .text-container {
+      width: 100% !important;
+      padding: 0 1rem !important;
+    }
+  
+    /* Contact section adjustments */
+    .contact-section {
+      margin-top: 2rem;
+      padding: 0 1rem;
+    }
+  
+    /* Stack elements vertically */
+    .flex-column-small {
+      flex-direction: column !important;
+    }
+  }

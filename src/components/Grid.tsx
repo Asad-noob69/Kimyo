@@ -21,10 +21,12 @@ export default function Grid() {
   });
 
   const { height } = dimension;
-  const y = useTransform(scrollYProgress, [0, 1], [0, height * 2]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, height * 3.3]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, height * 1.25]);
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, height * 3]);
+  const isMobile = dimension.width <= 768;
+  const mobileScale = isMobile ? 0.5 : 1; // Scale factor for mobile
+  const y = useTransform(scrollYProgress, [0, 1], [0, height * 2 * mobileScale]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, height * 3.3 * mobileScale]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, height * 1.25 * mobileScale]);
+  const y4 = useTransform(scrollYProgress, [0, 1], [0, height * 3 * mobileScale]);
 
   useEffect(() => {
     const lenis = new Lenis();

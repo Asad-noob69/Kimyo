@@ -4,6 +4,7 @@ import Image from "next/image"
 import WavePattern from "@/components/wave-pattern"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import "../styles/responsive.css"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -132,7 +133,7 @@ export default function Home() {
         {/* Top Left Image */}
         <div
           className="
-            shiny-border relative h-[200px] sm:h-[300px] md:aspect-video 
+            shiny-border responsive-image relative h-[200px] sm:h-[300px] md:aspect-video 
             rounded-lg overflow-visible shadow-md transition-all duration-300
             hover:scale-[1.02] hover:z-10
           "
@@ -144,7 +145,7 @@ export default function Home() {
         {/* Top Right Image */}
         <div
           className="
-            shiny-border relative h-[250px] sm:h-[350px] md:aspect-square 
+            shiny-border responsive-image relative h-[250px] sm:h-[350px] md:aspect-square 
             rounded-lg overflow-hidden shadow-md transition-all duration-300
             hover:scale-[1.02] hover:z-10
           "
@@ -156,7 +157,7 @@ export default function Home() {
           className="
               absolute right-10 top-8 
               w-[200px] h-full 
-              bg-transparent p-4   
+              bg-transparent p-4 welcome-text-container  
             "
         >
           <h1 ref={welcomeTextRef} className="text-sm text-white leading-7 mb-4 font-liber">
@@ -169,7 +170,7 @@ export default function Home() {
 
         {/* Center Circle */}
         <div
-          className="relative md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 
+          className="relative center-logo md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 
                 w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full shadow-lg border-1 
                 flex items-center justify-center z-10"
         >
@@ -177,7 +178,7 @@ export default function Home() {
         </div>
 
         {/* Bottom Left Image */}
-        <div className="flex gap-6">
+        <div className="flex gap-6 flex-column-small">
           {/* Existing Image Div */}
           <div
             className="
@@ -207,7 +208,7 @@ export default function Home() {
         {/* Bottom Right Image */}
         <div
           className="
-            shiny-border relative h-[200px] sm:h-[300px] md:aspect-video 
+            shiny-border responsive-image relative h-[200px] sm:h-[300px] md:aspect-video 
             rounded-lg overflow-hidden shadow-md transition-all duration-300
             hover:scale-[1.02] hover:z-10
           "
@@ -229,7 +230,7 @@ export default function Home() {
         {/* Contact Section with Scroll Trigger */}
         <div 
           ref={contactSectionRef} 
-          className="flex-1 text-white flex flex-col items-center justify-center text-center"
+          className="flex-1 text-white flex flex-col items-center justify-center text-center contact-section"
         >
           <h2 ref={contactTitleRef} className="text-sm font-semibold font-liber tracking-wide">
             PlEASE CONTACT MEE HAHA
@@ -264,7 +265,7 @@ export default function Home() {
       </div>
 
       {/* Add the wave pattern at the bottom */}
-      <div className="col-span-1 md:col-span-2 -mb-6">
+      <div className="col-span-1 md:col-span-2 -mb-6 wave-container">
         <WavePattern className="transform -translate-y-1" />
       </div>
     </main>
