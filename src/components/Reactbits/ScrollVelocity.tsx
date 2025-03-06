@@ -44,7 +44,7 @@ interface ScrollVelocityProps {
   scrollerStyle?: React.CSSProperties;
 }
 
-function useElementWidth(ref: React.RefObject<HTMLElement>): number {
+function useElementWidth<T extends HTMLElement | null>(ref: React.RefObject<T>): number {
   const [width, setWidth] = useState(0);
 
   useLayoutEffect(() => {
@@ -92,7 +92,7 @@ const VelocityText: React.FC<VelocityTextProps> = ({
     { clamp: false }
   );
 
-  const copyRef = useRef<HTMLSpanElement>(null);
+  const copyRef = useRef<HTMLSpanElement | null>(null);
   const copyWidth = useElementWidth(copyRef);
 
   function wrap(min: number, max: number, v: number): number {

@@ -11,9 +11,11 @@ import {
 
 type GL = Renderer["gl"];
 
-function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
+type DebouncedFunction<T extends (...args: unknown[]) => void> = (...args: Parameters<T>) => void;
+
+function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number): DebouncedFunction<T> {
   let timeout: number;
-  return function (this: any, ...args: Parameters<T>) {
+  return function (this: unknown, ...args: Parameters<T>) { 
     window.clearTimeout(timeout);
     timeout = window.setTimeout(() => func.apply(this, args), wait);
   };
@@ -23,7 +25,11 @@ function lerp(p1: number, p2: number, t: number): number {
   return p1 + (p2 - p1) * t;
 }
 
-function autoBind(instance: any): void {
+interface ObjectWithMethods {
+  [key: string]: unknown;
+}
+
+function autoBind(instance: ObjectWithMethods): void {
   const proto = Object.getPrototypeOf(instance);
   Object.getOwnPropertyNames(proto).forEach((key) => {
     if (key !== "constructor" && typeof instance[key] === "function") {
@@ -77,7 +83,8 @@ interface TitleProps {
   font?: string;
 }
 
-class Title {
+class Title implements ObjectWithMethods {
+  [key: string]: unknown;
   gl: GL;
   plane: Mesh;
   renderer: Renderer;
@@ -418,7 +425,15 @@ interface AppConfig {
   font?: string;
 }
 
-class App {
+interface AppEventHandlers {
+  onCheckDebounce: DebouncedFunction<(this: App) => void>;
+  onTouchDown: (e: MouseEvent | TouchEvent) => void;
+  onTouchMove: (e: MouseEvent | TouchEvent) => void;
+  onTouchUp: () => void;
+  onWheel: () => void;
+}
+
+class App implements AppEventHandlers {
   container: HTMLElement;
   scroll: {
     ease: number;
@@ -427,7 +442,6 @@ class App {
     last: number;
     position?: number;
   };
-  onCheckDebounce: (...args: any[]) => void;
   renderer!: Renderer;
   gl!: GL;
   camera!: Camera;
@@ -438,15 +452,9 @@ class App {
   screen!: { width: number; height: number };
   viewport!: { width: number; height: number };
   raf: number = 0;
-
-  boundOnResize!: () => void;
-  boundOnWheel!: () => void;
-  boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
-  boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
-  boundOnTouchUp!: () => void;
-
   isDown: boolean = false;
   start: number = 0;
+  onCheckDebounce: DebouncedFunction<(this: App) => void>;
 
   constructor(
     container: HTMLElement,
@@ -642,33 +650,33 @@ class App {
   }
 
   addEventListeners() {
-    this.boundOnResize = this.onResize.bind(this);
-    this.boundOnWheel = this.onWheel.bind(this);
-    this.boundOnTouchDown = this.onTouchDown.bind(this);
-    this.boundOnTouchMove = this.onTouchMove.bind(this);
-    this.boundOnTouchUp = this.onTouchUp.bind(this);
-    window.addEventListener("resize", this.boundOnResize);
-    window.addEventListener("mousewheel", this.boundOnWheel);
-    window.addEventListener("wheel", this.boundOnWheel);
-    window.addEventListener("mousedown", this.boundOnTouchDown);
-    window.addEventListener("mousemove", this.boundOnTouchMove);
-    window.addEventListener("mouseup", this.boundOnTouchUp);
-    window.addEventListener("touchstart", this.boundOnTouchDown);
-    window.addEventListener("touchmove", this.boundOnTouchMove);
-    window.addEventListener("touchend", this.boundOnTouchUp);
+    const boundOnResize = this.onResize.bind(this);
+    const boundOnWheel = this.onWheel.bind(this);
+    const boundOnTouchDown = this.onTouchDown.bind(this);
+    const boundOnTouchMove = this.onTouchMove.bind(this);
+    const boundOnTouchUp = this.onTouchUp.bind(this);
+    window.addEventListener("resize", boundOnResize);
+    window.addEventListener("mousewheel", boundOnWheel);
+    window.addEventListener("wheel", boundOnWheel);
+    window.addEventListener("mousedown", boundOnTouchDown);
+    window.addEventListener("mousemove", boundOnTouchMove);
+    window.addEventListener("mouseup", boundOnTouchUp);
+    window.addEventListener("touchstart", boundOnTouchDown);
+    window.addEventListener("touchmove", boundOnTouchMove);
+    window.addEventListener("touchend", boundOnTouchUp);
   }
 
   destroy() {
     window.cancelAnimationFrame(this.raf);
-    window.removeEventListener("resize", this.boundOnResize);
-    window.removeEventListener("mousewheel", this.boundOnWheel);
-    window.removeEventListener("wheel", this.boundOnWheel);
-    window.removeEventListener("mousedown", this.boundOnTouchDown);
-    window.removeEventListener("mousemove", this.boundOnTouchMove);
-    window.removeEventListener("mouseup", this.boundOnTouchUp);
-    window.removeEventListener("touchstart", this.boundOnTouchDown);
-    window.removeEventListener("touchmove", this.boundOnTouchMove);
-    window.removeEventListener("touchend", this.boundOnTouchUp);
+    window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("mousewheel", this.onWheel);
+    window.removeEventListener("wheel", this.onWheel);
+    window.removeEventListener("mousedown", this.onTouchDown);
+    window.removeEventListener("mousemove", this.onTouchMove);
+    window.removeEventListener("mouseup", this.onTouchUp);
+    window.removeEventListener("touchstart", this.onTouchDown);
+    window.removeEventListener("touchmove", this.onTouchMove);
+    window.removeEventListener("touchend", this.onTouchUp);
     if (
       this.renderer &&
       this.renderer.gl &&

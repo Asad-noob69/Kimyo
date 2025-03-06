@@ -9,6 +9,8 @@ import ScrollVelocity from '../components/Reactbits/ScrollVelocity'
 import CircularGallery from '../components/Reactbits/CircularGallery'
 import SplitText from '../components/Reactbits/SplitText'
 import Folder from "@/components/Reactbits/Folder"
+import { easeOut } from "framer-motion";
+
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -245,7 +247,7 @@ export default function Home() {
             delay={150}
             animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
             animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
-            easing="easeOutCubic"
+            easing={easeOut}
             threshold={0.2}
             rootMargin="-50px"
             onLetterAnimationComplete={handleAnimationComplete}
