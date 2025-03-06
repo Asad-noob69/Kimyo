@@ -14,6 +14,11 @@ interface SplitTextProps {
     onLetterAnimationComplete?: () => void;
 }
 
+interface AnimationProps {
+    opacity: number;
+    transform: string;
+}
+
 const SplitText: React.FC<SplitTextProps> = ({
     text = '',
     className = '',
@@ -57,7 +62,7 @@ const SplitText: React.FC<SplitTextProps> = ({
         letters.map((_, i) => ({
             from: animationFrom,
             to: inView
-                ? async (next: (props: any) => Promise<void>) => {
+                ? async (next: (props: AnimationProps) => Promise<void>) => {
                     await next(animationTo);
                     animatedCount.current += 1;
                     if (animatedCount.current === letters.length && onLetterAnimationComplete) {
@@ -86,7 +91,7 @@ const SplitText: React.FC<SplitTextProps> = ({
                         return (
                             <animated.span
                                 key={index}
-                                style={springs[index] as unknown as React.CSSProperties}
+                                style={springs[index] as React.CSSProperties}
                                 className="inline-block transform transition-opacity will-change-transform"
                             >
                                 {letter}

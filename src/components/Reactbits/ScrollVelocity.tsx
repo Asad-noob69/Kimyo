@@ -61,6 +61,90 @@ function useElementWidth(ref: React.RefObject<HTMLElement>): number {
   return width;
 }
 
+const VelocityText: React.FC<VelocityTextProps> = ({
+  children,
+  baseVelocity,
+  scrollContainerRef,
+  className = "",
+  damping,
+  stiffness,
+  numCopies = 6,
+  velocityMapping,
+  parallaxClassName,
+  scrollerClassName,
+  parallaxStyle,
+  scrollerStyle,
+}) => {
+  const baseX = useMotionValue(0);
+  const scrollOptions = scrollContainerRef
+    ? { container: scrollContainerRef }
+    : {};
+  const { scrollY } = useScroll(scrollOptions);
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: damping ?? 50,
+    stiffness: stiffness ?? 400,
+  });
+  const velocityFactor = useTransform(
+    smoothVelocity,
+    velocityMapping?.input || [0, 1000],
+    velocityMapping?.output || [0, 5],
+    { clamp: false }
+  );
+
+  const copyRef = useRef<HTMLSpanElement>(null);
+  const copyWidth = useElementWidth(copyRef);
+
+  function wrap(min: number, max: number, v: number): number {
+    const range = max - min;
+    const mod = (((v - min) % range) + range) % range;
+    return mod + min;
+  }
+
+  const x = useTransform(baseX, (v) => {
+    if (copyWidth === 0) return "0px";
+    return `${wrap(-copyWidth, 0, v)}px`;
+  });
+
+  const directionFactor = useRef<number>(1);
+  useAnimationFrame((t, delta) => {
+    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+
+    if (velocityFactor.get() < 0) {
+      directionFactor.current = -1;
+    } else if (velocityFactor.get() > 0) {
+      directionFactor.current = 1;
+    }
+
+    moveBy += directionFactor.current * moveBy * velocityFactor.get();
+    baseX.set(baseX.get() + moveBy);
+  });
+
+  const spans = Array.from({ length: numCopies }, (_, i) => (
+    <span
+      className={`flex-shrink-0 ${className}`}
+      key={i}
+      ref={i === 0 ? copyRef : null}
+    >
+      {children}
+    </span>
+  ));
+
+  return (
+    <div
+      className={`${parallaxClassName} relative overflow-hidden`}
+      style={parallaxStyle}
+    >
+      <motion.div
+        className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[5rem] mt-6`}
+        style={{ x, ...scrollerStyle }}
+      >
+        {spans}
+      </motion.div>
+    </div>
+  );
+};
+
 export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
   scrollContainerRef,
   texts = [],
@@ -75,93 +159,6 @@ export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
   parallaxStyle,
   scrollerStyle,
 }) => {
-  function VelocityText({
-    children,
-    baseVelocity = velocity,
-    scrollContainerRef,
-    className = "",
-    damping,
-    stiffness,
-    numCopies,
-    velocityMapping,
-    parallaxClassName,
-    scrollerClassName,
-    parallaxStyle,
-    scrollerStyle,
-  }: VelocityTextProps) {
-    const baseX = useMotionValue(0);
-    const scrollOptions = scrollContainerRef
-      ? { container: scrollContainerRef }
-      : {};
-    const { scrollY } = useScroll(scrollOptions);
-    const scrollVelocity = useVelocity(scrollY);
-    const smoothVelocity = useSpring(scrollVelocity, {
-      damping: damping ?? 50,
-      stiffness: stiffness ?? 400,
-    });
-    const velocityFactor = useTransform(
-      smoothVelocity,
-      velocityMapping?.input || [0, 1000],
-      velocityMapping?.output || [0, 5],
-      { clamp: false }
-    );
-
-    const copyRef = useRef<HTMLSpanElement>(null);
-    const copyWidth = useElementWidth(copyRef);
-
-    function wrap(min: number, max: number, v: number): number {
-      const range = max - min;
-      const mod = (((v - min) % range) + range) % range;
-      return mod + min;
-    }
-
-    const x = useTransform(baseX, (v) => {
-      if (copyWidth === 0) return "0px";
-      return `${wrap(-copyWidth, 0, v)}px`;
-    });
-
-    const directionFactor = useRef<number>(1);
-    useAnimationFrame((t, delta) => {
-      let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
-
-      if (velocityFactor.get() < 0) {
-        directionFactor.current = -1;
-      } else if (velocityFactor.get() > 0) {
-        directionFactor.current = 1;
-      }
-
-      moveBy += directionFactor.current * moveBy * velocityFactor.get();
-      baseX.set(baseX.get() + moveBy);
-    });
-
-    const spans = [];
-    for (let i = 0; i < numCopies!; i++) {
-      spans.push(
-        <span
-          className={`flex-shrink-0 ${className}`}
-          key={i}
-          ref={i === 0 ? copyRef : null}
-        >
-          {children}
-        </span>
-      );
-    }
-
-    return (
-      <div
-        className={`${parallaxClassName} relative overflow-hidden`}
-        style={parallaxStyle}
-      >
-        <motion.div
-          className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[5rem] mt-6`}
-          style={{ x, ...scrollerStyle }}
-        >
-          {spans}
-        </motion.div>
-      </div>
-    );
-  }
-
   return (
     <section>
       {texts.map((text: string, index: number) => (
