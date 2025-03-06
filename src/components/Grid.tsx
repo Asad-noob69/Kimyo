@@ -7,8 +7,8 @@ import Lenis from '@studio-freight/lenis';
 import { useTransform, useScroll, motion, MotionValue } from 'framer-motion';
 
 const images: string[] = [
-  "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg",
-  "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg", "mirage.jpg"
+  "mirage.jpg", "kimoyologo.jpg", "japan.png", "mirage.jpg", "japan.png", "mirage.jpg",
+  "logo.jpg", "mirage.jpg", "mirage.jpg", "blackbuck.png", "mirage.jpg", "logo.jpg"
 ];
 
 export default function Grid() {

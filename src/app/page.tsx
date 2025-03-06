@@ -5,6 +5,10 @@ import WavePattern from "@/components/wave-pattern"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import "../styles/responsive.css"
+import ScrollVelocity from '../components/Reactbits/ScrollVelocity'
+import CircularGallery from '../components/Reactbits/CircularGallery'
+import SplitText from '../components/Reactbits/SplitText'
+import Folder from "@/components/Reactbits/Folder"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,6 +23,9 @@ export default function Home() {
   const contactSectionRef = useRef<HTMLDivElement>(null)
   const contactTitleRef = useRef<HTMLHeadingElement>(null)
   const contactDescRef = useRef<HTMLParagraphElement>(null)
+  const handleAnimationComplete = () => {
+    console.log('All letters have animated!');
+  };
 
   useEffect(() => {
     // Main timeline for initial animations
@@ -217,13 +224,13 @@ export default function Home() {
           <Image src="/images/mirage.jpg" alt="Product details" fill className="object-cover" />
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between w-full gap-6">
+        <div className="flex flex-col md:flex-start  left-0 justify-between w-full gap-6">
           {/* Image Div - 50% Width */}
           <div
             className="shiny-border relative h-[200px] sm:h-[300px] md:w-4/5 rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:scale-[1.02] hover:z-10"
             onMouseEnter={() => setHoveredIndex(4)}
           >
-            <Image src="/images/logo.jpg" alt="Shopping bag preview" fill className="object-cover" />
+            <Image src="/images/logo.jpg" alt="Logo" fill className="object-cover" />
           </div>
         </div>
 
@@ -232,38 +239,35 @@ export default function Home() {
           ref={contactSectionRef} 
           className="flex-1 text-white flex flex-col items-center justify-center text-center contact-section"
         >
-          <h2 ref={contactTitleRef} className="text-sm font-semibold font-liber tracking-wide">
-            PlEASE CONTACT MEE HAHA
-          </h2>
+          <SplitText
+            text="Please Contact Me HAHA!"
+            className="text-sm font-semibold text-center font-liber leading-10"
+            delay={150}
+            animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
+            animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+            easing="easeOutCubic"
+            threshold={0.2}
+            rootMargin="-50px"
+            onLetterAnimationComplete={handleAnimationComplete}
+/>
           <p ref={contactDescRef} className="text-sm mt-1 font-mono">
             Feel free to reach out through any platform:
           </p>
 
           {/* Icons with Links */}
-          <div className="flex justify-center gap-4 mt-2 text-xl">
-            <a href="mailto:your-email@example.com" className="hover:opacity-75 mt-0.5 social-icon">
-              <Image src="/images/email.png" alt="Email" width={40} height={40} className="w-8 h-8" />
-            </a>
-            <a
-              href="https://www.instagram.com/yourprofile"
-              target="_blank"
-              className="hover:opacity-75 social-icon"
-              rel="noreferrer"
-            >
-              <Image src="/images/insta.png" alt="Instagram" width={40} height={40} className="w-8 h-8" />
-            </a>
-            <a
-              href="https://wa.me/yourphonenumber"
-              target="_blank"
-              className="hover:opacity-75 social-icon"
-              rel="noreferrer"
-            >
-              <Image src="/images/whatsapp.png" alt="WhatsApp" width={40} height={40} className="w-9 h-9" />
-            </a>
+          <div style={{ height: '100px', position: 'relative' }}>
+  <Folder size={2} color="#00d8ff" className="custom-folder" />
           </div>
         </div>
       </div>
-
+       
+       <ScrollVelocity 
+          texts={["At Kimyo We Love", "To Design What You Crave"]}
+          className="text-white font-havana "
+        />
+        <div style={{ height: '600px', position: 'relative' }}>
+  <CircularGallery bend={3} textColor="#ffffff" borderRadius={0.05} />
+        </div>
       {/* Add the wave pattern at the bottom */}
       <div className="col-span-1 md:col-span-2 -mb-6 wave-container">
         <WavePattern className="transform -translate-y-1" />
