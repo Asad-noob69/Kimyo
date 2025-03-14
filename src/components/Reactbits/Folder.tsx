@@ -109,7 +109,7 @@ const Folder: React.FC<FolderProps> = ({ color = "#00d8ff", size = 1, items = []
   const socialIcons = [
     // Instagram for paper 1
     <a
-      href="https://instagram.com"
+      href="https://www.instagram.com/kimyo.visuals/"
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
@@ -120,7 +120,7 @@ const Folder: React.FC<FolderProps> = ({ color = "#00d8ff", size = 1, items = []
     </a>,
     // LinkedIn for paper 2
     <a
-      href="https://linkedin.com"
+      href="https://www.linkedin.com/in/asadali1234/"
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
@@ -131,7 +131,7 @@ const Folder: React.FC<FolderProps> = ({ color = "#00d8ff", size = 1, items = []
     </a>,
     // GitHub for paper 3
     <a
-      href="https://github.com"
+      href="https://github.com/Asad-noob69"
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}

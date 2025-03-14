@@ -275,5 +275,6 @@ export default function Home() {
         <WavePattern className="transform -translate-y-1" />
       </div>
     </main>
+    
   )
 }
